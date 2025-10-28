@@ -1,0 +1,37 @@
+<HomeScreen>:
+    BoxLayout:
+        orientation: "vertical"
+
+        MDTopAppBar:
+            title: "Home Screen"
+            elevation: 10
+            left_action_items: [["menu", lambda x: app.nav_drawer.set_state("open")]]
+
+        BoxLayout:
+            orientation: "vertical"
+            padding: "20dp"
+            spacing: "10dp"
+
+            Label:
+                text: "ここがメインコンテンツ"
+                halign: "center"
+
+            MDRaisedButton:
+                text: "開始日を選択"
+                on_release: app.show_datepicker("start")
+
+            MDRaisedButton:
+                text: "終了日を選択"
+                on_release: app.show_datepicker("end")
+
+            Button:
+                text: "ダウンロード"
+                size_hint_y: None
+                height: "48dp"
+                on_release: app.download_data(start_date.text, end_date.text)
+
+            Button:
+                text: "Go DL"
+                size_hint_y: None
+                height: "48dp"
+                on_release: app.changeScreen("dl_screen")

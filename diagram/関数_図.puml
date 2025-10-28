@@ -1,0 +1,53 @@
+@startuml
+title TestApp 関数呼び出しフロー図
+
+start
+
+:アプリ起動 -> __init__();
+note right
+- dialog, nav_drawer など初期化
+end note
+
+:build() 呼び出し;
+note right
+- ScreenManager に Home/DL 画面追加
+- NavigationDrawer 作成
+- Layout に組み込み
+end note
+
+if (debugFlg == 1?) then (はい)
+  :changeScreen("home_screen");
+else (いいえ)
+  :show_login_dialog(callback=after_login);
+endif
+
+partition ログイン処理 {
+    :show_login_dialog 表示;
+    :ユーザーが ID/Password 入力;
+    :LOGIN ボタン押下 -> _login_pressed(username,password,callback);
+    :mylib.login_action(username,password) 呼び出し;
+    :callback(status) -> after_login(status);
+    
+    if (ログイン成功?) then (はい)
+        :dialog.dismiss();
+        :changeScreen("home_screen");
+    else (いいえ)
+        :toast("failed") 表示;
+    endif
+}
+
+partition 画面遷移 {
+    :changeScreen(screen_name) 呼び出し;
+    :sm.current = screen_name;
+    :nav_drawer.set_state("close");
+}
+
+partition 日付選択とダウンロード {
+    :show_datepicker(field) 呼び出し;
+    :MDDatePicker 表示 -> 日付選択 -> set_date(field,date_value);
+    :download_data() 呼び出し;
+    :start_date/end_date を利用してデータ取得;
+}
+
+stop
+@enduml
