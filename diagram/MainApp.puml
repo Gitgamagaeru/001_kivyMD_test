@@ -1,0 +1,34 @@
+@startuml kivyMD_Screen
+title MainApp クラス構造図
+
+class MDNavigationLayout{
+    - sm : ScreenManager
+    - nav_drawer : MDNavigationDrawer
+    --
+}
+class ScreenManager{
+    - home_screen : Screen
+    - dl_screen : Screen
+    --
+    + .current = Screen.name
+}
+class MDNavigationDrawer{
+    - drawer_box : BoxLayout
+    --
+    + .set_state("open")
+    + .set_state("close")
+}
+class BoxLayout{
+    - Home_icon : OneLineIconListItem
+    - DL_icon : OneLineIconListItem
+}
+class OneLineIconListItem
+class Screen
+
+BoxLayout "1" o-- "0..*" OneLineIconListItem : contains
+MDNavigationLayout "1" o-- "1" ScreenManager : contains
+MDNavigationLayout "1" o-- "1" MDNavigationDrawer : contains
+MDNavigationDrawer "1" o-- "1" BoxLayout : contains
+ScreenManager "1" o-- "0..*" Screen : contains
+
+@enduml

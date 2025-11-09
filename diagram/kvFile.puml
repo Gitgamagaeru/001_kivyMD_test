@@ -1,0 +1,22 @@
+@startuml
+actor User as U
+participant "Python インタプリタ" as Py
+participant "main.py" as Main
+participant "screens/home.py" as Home
+participant "Kivy Builder" as Builder
+participant "TestApp" as App
+
+U -> Py : main.py を実行
+Py -> Main : main.py の読み込み開始
+Main -> Home : from screens import HomeScreen
+Home -> Builder : Builder.load_file("home_screen.kv")
+Builder -> Builder : kvファイルを解析・登録
+Builder --> Home : 登録完了
+Home --> Main : HomeScreenクラス読み込み完了
+
+Main -> App : TestApp() を生成
+U -> App : run() 呼び出し
+App -> App : build() 実行
+App -> Builder : 登録済みkv情報を参照してUI構築
+App -> App : on_start() 実行（UI描画済み）
+@enduml
