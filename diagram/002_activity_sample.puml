@@ -1,0 +1,25 @@
+@startuml activity_sample
+title アクティビティ図（フローチャート）_サンプル
+
+'start - stop で囲む
+start
+/'
+基本は上から下に流れる
+:(処理);
+'/
+:ログインボタン押下;
+:ユーザ情報照会;
+/'
+分岐の記載方法
+if (分岐条件) then (結果)
+else (結果) 
+endif
+'/
+if (照会結果) then (true)
+    :ログイン成功：ログイン画面表示;
+else (false)
+    :ログイン失敗：エラーメッセージ;
+endif
+
+stop
+@enduml

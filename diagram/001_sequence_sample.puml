@@ -1,0 +1,21 @@
+@startuml sequence_sample
+title シーケンス図_サンプル
+' ライフラインは省略
+
+' actor,participantで対象のオブジェクトを定義
+actor user  
+Participant system as s
+Participant database as db
+
+'->（メッセージ）,-->（応答メッセージ）
+user -> s : ログイン(ID,Password)
+s -> db : ユーザ情報照会
+db --> s : 照会結果
+'条件分岐 alt,else
+alt データ一致
+    s --> user : ログイン成功：ホーム画面へ遷移
+else データ不一致
+    s --> user : ログイン失敗：エラーメッセージ
+end
+
+@enduml
